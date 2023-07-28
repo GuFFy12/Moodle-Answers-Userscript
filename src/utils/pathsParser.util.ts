@@ -9,7 +9,7 @@ export default function () {
 			(path.querySelector('a[itemprop="url"]') ?? new Element()).getAttribute('href') ?? '',
 		).searchParams;
 
-		paths[(['course', 'section', 'module'] as const)[index]] = {
+		paths[(['course', 'section', 'module'] as const)[index - 2]] = {
 			id: parseInt((searchParams.get('section') ? searchParams.get('section') : searchParams.get('id')) ?? ''),
 			name: innerHTMLFormatterUtil(path.querySelector('span[itemprop="title"]')?.innerHTML ?? ''),
 		};
