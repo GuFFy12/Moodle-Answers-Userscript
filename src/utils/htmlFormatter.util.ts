@@ -32,7 +32,5 @@ export default function (elements: Element) {
 		}
 	}
 
-	console.log(elements.innerHTML, div.innerHTML);
-
 	return div.innerHTML;
 }
