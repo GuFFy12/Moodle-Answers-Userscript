@@ -1,11 +1,11 @@
 import { QuestionData } from '../types';
-import innerHTMLFormatterUtil from '../utils/innerHTMLFormatter.util';
+import htmlFormatterUtil from '../utils/htmlFormatter.util';
 
 export default function (questionBlockElement: Element, questionData: QuestionData) {
 	return Array.from(questionBlockElement.querySelectorAll('select'))
 		.sort((a, b) => {
-			return innerHTMLFormatterUtil(a.parentElement?.previousElementSibling?.innerHTML ?? '').localeCompare(
-				innerHTMLFormatterUtil(b.parentElement?.previousElementSibling?.innerHTML ?? ''),
+			return htmlFormatterUtil(a.parentElement?.previousElementSibling ?? new Element()).localeCompare(
+				htmlFormatterUtil(b.parentElement?.previousElementSibling ?? new Element()),
 			);
 		})
 		.reduce((items: Element[], item) => {
@@ -13,17 +13,17 @@ export default function (questionBlockElement: Element, questionData: QuestionDa
 
 			const sortedOptions = Array.from(item.options)
 				.sort((a, b) => {
-					return innerHTMLFormatterUtil(a.innerHTML).localeCompare(innerHTMLFormatterUtil(b.innerHTML));
+					return htmlFormatterUtil(a).localeCompare(htmlFormatterUtil(b));
 				})
-				.map((element) => innerHTMLFormatterUtil(element.innerHTML));
+				.map((element) => htmlFormatterUtil(element));
 
 			questionData.answerOptions.push(
-				`${innerHTMLFormatterUtil(
-					item.parentElement?.previousElementSibling?.innerHTML ?? '',
+				`${htmlFormatterUtil(
+					item.parentElement?.previousElementSibling ?? new Element(),
 				)} — ${sortedOptions.join(', ')}`,
 			);
 
-			const selectedOption = innerHTMLFormatterUtil(item.options[item.selectedIndex].innerHTML);
+			const selectedOption = htmlFormatterUtil(item.options[item.selectedIndex]);
 
 			questionData.answers.push(
 				(sortedOptions.indexOf(selectedOption) + questionData.answerOptions.length - 1).toString(),

@@ -1,13 +1,13 @@
 import questionDataParsers from '../questionDataParsers';
 import { AnswerData, QuestionData } from '../types';
-import innerHTMLParserUtil from '../utils/innerHTMLFormatter.util';
+import htmlFormatterUtil from '../utils/htmlFormatter.util';
 import answersDataSelector from './answersDataSelector';
 
 export default function (responseForm: Element, answersData?: Record<string, AnswerData[]>) {
 	return Array.from(responseForm.querySelectorAll('div > *[id^="question"]')).reduce(
 		(questionsData: Record<string, QuestionData>, questionBlockElement) => {
 			questionsData[questionBlockElement.id] = {
-				question: innerHTMLParserUtil(questionBlockElement.querySelector('.qtext')?.innerHTML ?? ''),
+				question: htmlFormatterUtil(questionBlockElement.querySelector('.qtext') ?? new Element()),
 				answerOptions: [],
 				answers: [],
 			};

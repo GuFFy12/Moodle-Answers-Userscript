@@ -1,5 +1,5 @@
 import { Paths } from '../types';
-import innerHTMLFormatterUtil from './innerHTMLFormatter.util';
+import htmlFormatterUtil from './htmlFormatter.util';
 
 export default function () {
 	return Array.from(document.querySelectorAll('.breadcrumb li')).reduce((paths: Paths, path, index) => {
@@ -11,7 +11,7 @@ export default function () {
 
 		paths[(['course', 'section', 'module'] as const)[index - 2]] = {
 			id: parseInt((searchParams.get('section') ? searchParams.get('section') : searchParams.get('id')) ?? ''),
-			name: innerHTMLFormatterUtil(path.querySelector('span[itemprop="title"]')?.innerHTML ?? ''),
+			name: htmlFormatterUtil(path.querySelector('span[itemprop="title"]') ?? new Element()),
 		};
 
 		return paths;
