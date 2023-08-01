@@ -8,26 +8,27 @@ export default function (elements: Element) {
 		for (const attribute of attributesArray) {
 			if (attribute.name !== 'src') {
 				element.removeAttribute(attribute.name);
+				continue;
+			}
+
+			if (!(element instanceof HTMLImageElement)) {
+				if (!attribute.value.match(/https:\/\/[\w./]+\/pluginfile\.php\/.*?/g)) continue;
+
+				const url = attribute.value.split('/');
+				url[7] = 'QUBAID';
+				url[8] = 'SLOT';
+
+				attribute.value = url.join('/');
 			} else {
-				if (!(element instanceof HTMLImageElement)) {
-					if (!attribute.value.match(/https:\/\/[\w./]+\/pluginfile\.php\/.*?/g)) continue;
+				const canvas = document.createElement('canvas');
 
-					const url = attribute.value.split('/');
-					url[7] = 'QUBAID';
-					url[8] = 'SLOT';
+				canvas.width = element.width;
+				canvas.height = element.height;
 
-					attribute.value = url.join('/');
-				} else {
-					const canvas = document.createElement('canvas');
+				const ctx = canvas.getContext('2d');
+				if (ctx) ctx.drawImage(element, 0, 0);
 
-					canvas.width = element.width;
-					canvas.height = element.height;
-
-					const ctx = canvas.getContext('2d');
-					if (ctx) ctx.drawImage(element, 0, 0);
-
-					attribute.value = canvas.toDataURL();
-				}
+				attribute.value = canvas.toDataURL();
 			}
 		}
 	}

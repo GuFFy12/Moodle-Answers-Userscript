@@ -32,6 +32,8 @@
     "webpack-cli": "^5.1.4"
   },
   "userscript": {
+    "name": "UGATU SDO ANSWERS SCRIPT",
+    "description": "Ответы для сайта СДО УГАТУ!",
     "namespace": "https://t.me/+AzlTc2COncJmYzAy",
     "match": ["https://sdo.ugatu.su/*"],
     "icon": "https://sdo.ugatu.su/pluginfile.php/1/theme_opentechnology/settings_setugatu_header_logoimage/1664187092/Z3_222.png",
