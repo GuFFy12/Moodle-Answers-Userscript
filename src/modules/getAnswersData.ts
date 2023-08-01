@@ -17,13 +17,15 @@ export default function (cmId: number, responseForm: Element) {
 		const response = await requestUtil({
 			method: 'GET',
 			url: url.toString(),
+			timeout: 10000,
+			responseType: 'json',
 		}).promise;
 
 		console.log('getAnswerData =>', response);
 
-		if (response && response.status === 200) {
+		if (response?.response && response.status === 200) {
 			questionDataParser(responseForm, {
-				[questionId]: JSON.parse(response.responseText) as AnswerData[],
+				[questionId]: response.response as AnswerData[],
 			});
 		}
 	});

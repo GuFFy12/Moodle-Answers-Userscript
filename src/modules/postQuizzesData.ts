@@ -22,11 +22,13 @@ export default async function (userId: string, paths: Paths) {
 				percent: quizData.percent,
 				questionsData: Object.values(quizData.questionsData),
 			}),
+			timeout: 10000,
+			responseType: 'json',
 		}).promise;
 
 		console.log(`postQuizData => `, response);
 
-		if (response && (response.status === 201 || response.status === 400)) {
+		if (response?.response && (response.status === 201 || response.status === 400)) {
 			quizzesDataUtil.delete(quizId);
 		}
 
