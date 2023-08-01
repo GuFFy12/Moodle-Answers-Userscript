@@ -2,7 +2,7 @@ import { Paths } from '../types';
 import quizzesDataUtil from '../utils/quizzesData.util';
 import requestUtil from '../utils/request.util';
 
-export default async function (userId: string, paths: Paths) {
+export default async function (userId: number, paths: Paths) {
 	const responses: (Tampermonkey.ErrorResponse | Tampermonkey.Response<object> | undefined)[] = [];
 
 	for (const [quizId, quizData] of quizzesDataUtil.entries()) {

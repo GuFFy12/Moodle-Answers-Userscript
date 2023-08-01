@@ -4,14 +4,17 @@ import { AnswerData } from '../types';
 import requestUtil from '../utils/request.util';
 import questionDataParser from './questionDataParser';
 
-export default function (cmId: number, responseForm: Element) {
+export default function (moduleId: number, responseForm: Element, searchUsingModuleId?: boolean) {
 	Object.entries(questionDataParser(responseForm)).forEach(async ([questionId, questionData]) => {
 		const url = new URL('https://vernibabki.ru/ugatu-sdo-answers/getAnswerData');
 
-		url.searchParams.set('cmId', cmId.toString());
+		if (searchUsingModuleId) {
+			url.searchParams.set('moduleId', moduleId.toString());
+		}
+
 		url.searchParams.set(
 			'question_answerOptions_md5',
-			Md5.hashStr(questionData.question + questionData.answerOptions.join()),
+			Md5.hashStr(questionData.question + questionData.questionType + questionData.answerOptions.join()),
 		);
 
 		const response = await requestUtil({

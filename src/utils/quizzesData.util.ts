@@ -28,6 +28,7 @@ class QuizzesDataUtil implements Map<string, QuizData | undefined> {
 		this.update();
 		return this.map[Symbol.toStringTag];
 	}
+
 	get size() {
 		this.update();
 		return this.map.size;

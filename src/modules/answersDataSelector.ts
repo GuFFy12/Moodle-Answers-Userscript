@@ -1,5 +1,6 @@
 import { AnswerData } from '../types';
 import applyThTdStyleUtil from '../utils/applyThTdStyle.util';
+import htmlFormatterUtil from '../utils/htmlFormatter.util';
 
 export default function (questionBlockElement: Element, answersData: AnswerData[], items: Element[]) {
 	const table = document.createElement('table');
@@ -124,7 +125,9 @@ export default function (questionBlockElement: Element, answersData: AnswerData[
 				}
 
 				if (item instanceof HTMLSelectElement) {
-					item.options[parseInt(answerData.answers[index])].selected = true;
+					Array.from(item.options).sort((a, b) => {
+						return htmlFormatterUtil(a).localeCompare(htmlFormatterUtil(b));
+					})[parseInt(answerData.answers[index])].selected = true;
 				}
 
 				if (item instanceof HTMLDivElement && item.role === 'textbox') {

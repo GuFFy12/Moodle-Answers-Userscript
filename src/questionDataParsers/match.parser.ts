@@ -18,18 +18,14 @@ export default function (questionBlockElement: Element, questionData: QuestionDa
 				.map((element) => htmlFormatterUtil(element));
 
 			questionData.answerOptions.push(
-				`${htmlFormatterUtil(
-					item.parentElement?.previousElementSibling ?? new Element(),
-				)} — ${sortedOptions.join(', ')}`,
+				htmlFormatterUtil(item.parentElement?.previousElementSibling ?? new Element()),
+				sortedOptions.length.toString(),
+				...sortedOptions,
 			);
 
 			const selectedOption = htmlFormatterUtil(item.options[item.selectedIndex]);
 
-			questionData.answers.push(
-				(sortedOptions.indexOf(selectedOption) + questionData.answerOptions.length - 1).toString(),
-			);
-
-			questionData.answerOptions.push(...sortedOptions);
+			questionData.answers.push(sortedOptions.indexOf(selectedOption).toString());
 
 			items.push(item);
 			return items;

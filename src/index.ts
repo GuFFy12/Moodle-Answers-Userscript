@@ -3,9 +3,10 @@ import postQuizzesData from './modules/postQuizzesData';
 import quizPercentParser from './modules/quizPercentParser';
 import responseFormPatcher from './modules/responseFormPatcher';
 import pathsParserUtil from './utils/pathsParser.util';
+import quizzesDataUtil from './utils/quizzesData.util';
 
 async function bootstrap() {
-	const userId = document.querySelector('[data-userid]')?.getAttribute('data-userid') ?? '';
+	const userId = parseInt(document.querySelector('[data-userid]')?.getAttribute('data-userid') ?? '0');
 
 	const paths = pathsParserUtil();
 	const attempt = new URL(window.location.href).searchParams.get('attempt');
@@ -30,5 +31,7 @@ async function bootstrap() {
 
 	const responses = await postQuizzesData(userId, paths);
 	if (responses.length) console.log('Все результаты тестов были отправлены =>', responses);
+
+	console.log(quizzesDataUtil.entries());
 }
 void bootstrap();

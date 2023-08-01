@@ -5,6 +5,7 @@ export interface QuizData {
 
 export interface QuestionData {
 	question: string;
+	questionType: string;
 	answerOptions: string[];
 	answers: string[];
 }

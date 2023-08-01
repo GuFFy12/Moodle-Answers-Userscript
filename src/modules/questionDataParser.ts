@@ -8,6 +8,7 @@ export default function (responseForm: Element, answersData?: Record<string, Ans
 		(questionsData: Record<string, QuestionData>, questionBlockElement) => {
 			questionsData[questionBlockElement.id] = {
 				question: htmlFormatterUtil(questionBlockElement.querySelector('.qtext') ?? new Element()),
+				questionType: questionBlockElement.className.split(' ')[1],
 				answerOptions: [],
 				answers: [],
 			};
