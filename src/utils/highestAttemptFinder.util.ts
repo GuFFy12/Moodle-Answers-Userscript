@@ -15,7 +15,7 @@ export default function (cmId: number) {
 
 	if (attempt !== -1) {
 		quizzesDataKeys.forEach((key) => {
-			if (key.startsWith(`${cmId}_`) && key !== `${cmId}_${attempt}`) {
+			if (key.startsWith(cmId.toString()) && key !== `${cmId}_${attempt}`) {
 				quizzesDataUtil.delete(key);
 			}
 		});
