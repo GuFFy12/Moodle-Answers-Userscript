@@ -7,7 +7,7 @@ export default function (responseForm: Element, answersData?: Record<string, Ans
 	return Array.from(responseForm.querySelectorAll('div > *[id^="question"]')).reduce(
 		(questionsData: Record<string, QuestionData>, questionBlockElement) => {
 			questionsData[questionBlockElement.id] = {
-				question: htmlFormatterUtil(questionBlockElement.querySelector('.qtext') ?? new Element()),
+				question: htmlFormatterUtil(questionBlockElement.querySelector('.qtext')),
 				questionType: questionBlockElement.className.split(' ')[1],
 				answerOptions: [],
 				answers: [],

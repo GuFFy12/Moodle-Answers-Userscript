@@ -3,14 +3,13 @@ import htmlFormatterUtil from '../utils/htmlFormatter.util';
 
 export default function (questionBlockElement: Element, questionData: QuestionData) {
 	return Array.from(questionBlockElement.querySelectorAll('select'))
+		.filter((item): item is HTMLSelectElement => item instanceof HTMLSelectElement)
 		.sort((a, b) => {
-			return htmlFormatterUtil(a.parentElement?.previousElementSibling ?? new Element()).localeCompare(
-				htmlFormatterUtil(b.parentElement?.previousElementSibling ?? new Element()),
+			return htmlFormatterUtil(a.parentElement?.previousElementSibling).localeCompare(
+				htmlFormatterUtil(b.parentElement?.previousElementSibling),
 			);
 		})
 		.reduce((items: Element[], item) => {
-			if (!(item instanceof HTMLSelectElement)) return items;
-
 			const sortedOptions = Array.from(item.options)
 				.sort((a, b) => {
 					return htmlFormatterUtil(a).localeCompare(htmlFormatterUtil(b));
@@ -18,7 +17,7 @@ export default function (questionBlockElement: Element, questionData: QuestionDa
 				.map((element) => htmlFormatterUtil(element));
 
 			questionData.answerOptions.push(
-				htmlFormatterUtil(item.parentElement?.previousElementSibling ?? new Element()),
+				htmlFormatterUtil(item.parentElement?.previousElementSibling),
 				sortedOptions.length.toString(),
 				...sortedOptions,
 			);

@@ -1,4 +1,6 @@
-export default function (elements: Element) {
+export default function (elements?: Element | null) {
+	if (!elements) elements = document.createElement('div');
+
 	const div = document.createElement('div');
 	div.innerHTML = elements.innerHTML;
 
