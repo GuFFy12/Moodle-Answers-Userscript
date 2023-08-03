@@ -31,7 +31,5 @@ async function bootstrap() {
 
 	const responses = await postQuizzesData(userId, paths);
 	if (responses.length) console.log('Все результаты тестов были отправлены =>', responses);
-
-	console.log(quizzesDataUtil.entries());
 }
 void bootstrap();
