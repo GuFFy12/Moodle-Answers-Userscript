@@ -1,13 +1,13 @@
 {
   "name": "ugatu-sdo-answers-userscript",
-  "version": "3.0.0-beta.0",
+  "version": "3.0.1",
   "description": "UGATU SDO Answers Userscript",
   "author": "GuFFy12",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "webpack",
-    "build:dev": "tsc dev/dev.ts --outDir ./dist  && tsc dev/dev-server.ts --outDir ./dist",
+    "build": "yarn version --patch && webpack",
+    "build:dev": "tsc dev/dev.ts --outDir ./dist && tsc dev/dev-server.ts --outDir ./dist",
     "start:dev": "node dist/dev-server & webpack --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
@@ -35,9 +35,15 @@
     "name": "UGATU SDO ANSWERS SCRIPT",
     "description": "Ответы для сайта СДО УГАТУ!",
     "namespace": "https://t.me/+AzlTc2COncJmYzAy",
-    "match": ["https://sdo.ugatu.su/*"],
+    "match": [
+      "https://sdo.ugatu.su/*"
+    ],
     "icon": "https://sdo.ugatu.su/pluginfile.php/1/theme_opentechnology/settings_setugatu_header_logoimage/1664187092/Z3_222.png",
-    "grant": ["GM_xmlhttpRequest", "GM_getValue", "GM_setValue"],
+    "grant": [
+      "GM_xmlhttpRequest",
+      "GM_getValue",
+      "GM_setValue"
+    ],
     "run-at": "document-idle",
     "license": "MIT"
   }
