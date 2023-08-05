@@ -1,12 +1,12 @@
 {
   "name": "ugatu-sdo-answers-userscript",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "UGATU SDO Answers Userscript",
   "author": "GuFFy12",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "yarn version --patch && webpack",
+    "build": "yarn version --patch --no-commit-hooks && webpack",
     "build:dev": "tsc dev/dev.ts --outDir ./dist && tsc dev/dev-server.ts --outDir ./dist",
     "start:dev": "node dist/dev-server & webpack --watch",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
