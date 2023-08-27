@@ -1,9 +1,8 @@
 import getAnswersData from './modules/getAnswersData';
 import postQuizzesData from './modules/postQuizzesData';
 import quizPercentParser from './modules/quizPercentParser';
-import responseFormPatcher from './modules/responseFormPatcher';
+import saveAnswersHandler from './modules/saveAnswersHandler';
 import pathsParserUtil from './utils/pathsParser.util';
-import quizzesDataUtil from './utils/quizzesData.util';
 
 async function bootstrap() {
 	const userId = parseInt(document.querySelector('[data-userid]')?.getAttribute('data-userid') ?? '0');
@@ -18,7 +17,7 @@ async function bootstrap() {
 		if (responseForm) {
 			console.log('Обнаружен блок ответов =>', responseForm);
 
-			if (attempt) responseFormPatcher(paths.module.id, attempt, responseForm);
+			if (attempt) saveAnswersHandler(paths.module.id, attempt, responseForm);
 			getAnswersData(paths.module.id, responseForm);
 		}
 

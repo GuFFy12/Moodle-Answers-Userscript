@@ -1,6 +1,6 @@
 {
   "name": "ugatu-sdo-answers-userscript",
-  "version": "3.0.2",
+  "version": "3.0.0",
   "description": "UGATU SDO Answers Userscript",
   "author": "GuFFy12",
   "license": "MIT",
@@ -44,7 +44,6 @@
       "GM_getValue",
       "GM_setValue"
     ],
-    "run-at": "document-idle",
-    "license": "MIT"
+    "run-at": "document-idle"
   }
 }

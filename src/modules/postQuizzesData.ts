@@ -6,13 +6,11 @@ export default async function (userId: number, paths: Paths) {
 	const responses: (Tampermonkey.ErrorResponse | Tampermonkey.Response<object> | undefined)[] = [];
 
 	for (const [quizId, quizData] of quizzesDataUtil.entries()) {
-		if (quizData?.percent === undefined) {
-			continue;
-		}
+		if (quizData?.percent === undefined) continue;
 
 		const response = await requestUtil({
 			method: 'POST',
-			url: 'https://vernibabki.ru/ugatu-sdo-answers/postQuizData',
+			url: 'http://localhost:3000/postQuizData',
 			headers: {
 				'Content-Type': 'application/json',
 			},

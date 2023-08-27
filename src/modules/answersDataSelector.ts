@@ -2,16 +2,19 @@ import { AnswerData } from '../types';
 import applyThTdStyleUtil from '../utils/applyThTdStyle.util';
 import htmlFormatterUtil from '../utils/htmlFormatter.util';
 
-export default function (questionBlockElement: Element, answersData: AnswerData[], items: Element[]) {
+export default function (questionBlockElement: Element, items: Element[], answerData: AnswerData) {
+	const div = document.createElement('div');
+	questionBlockElement.appendChild(div);
+
 	const table = document.createElement('table');
-	questionBlockElement.appendChild(table);
+	div.appendChild(table);
 	table.style.marginLeft = 'auto';
 	table.style.marginRight = 'auto';
 	table.style.borderCollapse = 'collapse';
 	table.style.tableLayout = 'fixed';
 	table.style.width = '80%';
 
-	if (!answersData.length) {
+	if (!answerData.groupedAnswers.length) {
 		const headerRow = document.createElement('tr');
 		table.appendChild(headerRow);
 		headerRow.style.backgroundColor = `rgba(221,221,221,0.6)`;
@@ -34,28 +37,54 @@ export default function (questionBlockElement: Element, answersData: AnswerData[
 
 	const usageHeader = document.createElement('th');
 	headerRow.appendChild(usageHeader);
-	usageHeader.textContent = 'Количество использований';
+	usageHeader.textContent = 'Выбрали';
 	applyThTdStyleUtil(usageHeader);
 
 	const lastUsageHeader = document.createElement('th');
 	headerRow.appendChild(lastUsageHeader);
-	lastUsageHeader.textContent = 'Последний раз';
+	lastUsageHeader.textContent = 'Время';
 	applyThTdStyleUtil(lastUsageHeader);
 
-	answersData.forEach((answerData, index) => {
+	answerData.groupedAnswers.forEach((groupedAnswer, index) => {
 		let percentColor: string;
 		switch (true) {
-			case answerData._avg.percent > 80:
+			case groupedAnswer._avg.percent > 80:
 				percentColor = 'rgba(168,228,160,0.6)';
 				break;
-			case answerData._avg.percent > 60:
+			case groupedAnswer._avg.percent > 60:
 				percentColor = 'rgba(255,219,139,0.6)';
 				break;
 			default:
 				percentColor = 'rgba(255,155,172,0.6)';
 		}
 
-		const lastUsed = new Date(answerData._max.createdAt);
+		const answerRow = document.createElement('tr');
+		table.appendChild(answerRow);
+		answerRow.style.cursor = 'pointer';
+		answerRow.style.backgroundColor = percentColor;
+		answerRow.style.transition = '0.25s';
+
+		answerRow.addEventListener('mouseover', () => {
+			answerRow.style.backgroundColor = percentColor.replace('0.6', '0.9');
+		});
+
+		answerRow.addEventListener('mouseout', () => {
+			answerRow.style.backgroundColor = percentColor;
+		});
+
+		const percentData = document.createElement('td');
+		answerRow.appendChild(percentData);
+		percentData.innerText = groupedAnswer._avg.percent
+			? groupedAnswer._avg.percent.toString()
+			: 'Ответ не был оценён';
+		applyThTdStyleUtil(percentData);
+
+		const usageData = document.createElement('td');
+		applyThTdStyleUtil(usageData);
+		usageData.textContent = `${groupedAnswer._count.answers.toString()} / ${answerData.answersCount}`;
+		answerRow.appendChild(usageData);
+
+		const lastUsed = new Date(groupedAnswer._max.createdAt);
 		const timeDiff = Math.abs(new Date().getTime() - lastUsed.getTime());
 		const diffDays = Math.floor(timeDiff / (1000 * 3600 * 24));
 		const diffHours = Math.floor((timeDiff % (1000 * 3600 * 24)) / (1000 * 3600));
@@ -76,43 +105,18 @@ export default function (questionBlockElement: Element, answersData: AnswerData[
 			default:
 				lastUsedText = `${diffSeconds} секунд`;
 		}
-
-		const answerRow = document.createElement('tr');
-		table.appendChild(answerRow);
-		answerRow.style.cursor = 'pointer';
-		answerRow.style.backgroundColor = percentColor;
-		answerRow.style.transition = '0.25s';
-
-		answerRow.addEventListener('mouseover', () => {
-			answerRow.style.backgroundColor = percentColor.replace('0.6', '0.9');
-		});
-
-		answerRow.addEventListener('mouseout', () => {
-			answerRow.style.backgroundColor = percentColor;
-		});
-
-		const percentData = document.createElement('td');
-		answerRow.appendChild(percentData);
-		percentData.innerText = answerData._avg.percent.toString();
-		applyThTdStyleUtil(percentData);
-
-		const usageData = document.createElement('td');
-		applyThTdStyleUtil(usageData);
-		usageData.textContent = answerData._count.answers.toString();
-		answerRow.appendChild(usageData);
-
 		const lastUsageData = document.createElement('td');
 		answerRow.appendChild(lastUsageData);
 		lastUsageData.textContent = lastUsedText;
 		applyThTdStyleUtil(lastUsageData);
 
 		answerRow.onclick = function () {
-			console.log(`Выбран ответ №${index + 1} =>`, answerData.answers);
+			console.log(`Выбран ответ №${index + 1} =>`, groupedAnswer.answers);
 
 			items.forEach((item, index) => {
 				if (item instanceof HTMLInputElement) {
 					if (item.type === 'radio' || item.type === 'checkbox') {
-						if (answerData.answers.includes(index.toString())) {
+						if (groupedAnswer.answers.includes(index.toString())) {
 							if (!item.checked) item.click();
 						} else if (item.checked) {
 							item.click();
@@ -120,18 +124,18 @@ export default function (questionBlockElement: Element, answersData: AnswerData[
 					}
 
 					if (item.type === 'text') {
-						item.value = answerData.answers[index];
+						item.value = groupedAnswer.answers[index];
 					}
 				}
 
 				if (item instanceof HTMLSelectElement) {
 					Array.from(item.options).sort((a, b) => {
 						return htmlFormatterUtil(a).localeCompare(htmlFormatterUtil(b));
-					})[parseInt(answerData.answers[index])].selected = true;
+					})[parseInt(groupedAnswer.answers[index])].selected = true;
 				}
 
 				if (item instanceof HTMLDivElement && item.role === 'textbox') {
-					item.innerHTML = answerData.answers[index];
+					item.innerHTML = groupedAnswer.answers[index];
 				}
 			});
 		};

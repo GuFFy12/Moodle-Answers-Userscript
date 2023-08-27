@@ -21,7 +21,7 @@ export interface Path {
 	name: string;
 }
 
-export interface AnswerData {
+export interface GroupedAnswer {
 	_avg: {
 		percent: number;
 	};
@@ -32,4 +32,9 @@ export interface AnswerData {
 		createdAt: string;
 	};
 	answers: string[];
+}
+
+export interface AnswerData {
+	groupedAnswers: GroupedAnswer[];
+	answersCount: number;
 }

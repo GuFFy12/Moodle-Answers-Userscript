@@ -44,6 +44,7 @@ interface PackageJsonOptions {
 	version: string;
 	description: string;
 	author: string;
+	license: string;
 	homepage: string;
 	userscript: Partial<ScriptMetadata>;
 	dependencies: { [key: string]: string };
@@ -129,8 +130,8 @@ export default function () {
 		headers.push(`// @supportURL ${userscript.supportURL}`);
 	}
 
-	if (userscript.license) {
-		headers.push(`// @license ${userscript.license}`);
+	if (packageJson.license || userscript.license) {
+		headers.push(`// @license ${packageJson.license ?? userscript.license}`);
 	}
 
 	if (userscript.include && userscript.include instanceof Array) {

@@ -8,7 +8,7 @@ export default function () {
 		const searchParams = new URL(path.querySelector('a[itemprop="url"]')?.getAttribute('href') ?? '').searchParams;
 
 		paths[(['course', 'section', 'module'] as const)[index - 2]] = {
-			id: parseInt((searchParams.get('section') ? searchParams.get('section') : searchParams.get('id')) ?? ''),
+			id: parseInt(searchParams.get('section') ?? searchParams.get('id') ?? ''),
 			name: htmlFormatterUtil(path.querySelector('span[itemprop="title"]')),
 		};
 
