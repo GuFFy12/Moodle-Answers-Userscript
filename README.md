@@ -1,5 +1,5 @@
-# UGATU-SDO-Answers-Userscript
+# Moodle-Answers-Userscript
 
-UGATU SDO Answers Userscript
+Moodle Answers Userscript
 
-Проект заморожен. Нестабильная версия.
+This repository is part from moodle answers collector. Check more info: https://github.com/GuFFy12/Moodle-Answers-Backend
